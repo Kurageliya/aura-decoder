@@ -20,28 +20,22 @@ export const QuizCard: React.FC<QuizCardProps> = ({ question, onSelectOption }) 
 
     setTimeout(() => {
       onSelectOption(option);
-    }, 500);
+    }, 400);
   };
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={question.id}
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md mx-auto relative z-10"
+        exit={{ opacity: 0, y: -15 }}
+        transition={{ duration: 0.25, ease: 'easeOut' }}
+        className="w-full max-w-md mx-auto relative z-10 gpu-smooth"
       >
-        <div
-          className="bg-white/75 backdrop-blur-[10px] rounded-[24px] p-6 sm:p-8 relative overflow-hidden transition-all duration-300"
-          style={{
-            border: '1px solid rgba(212, 175, 55, 0.45)',
-            boxShadow: '0 20px 60px rgba(212, 175, 55, 0.15), 0 8px 20px rgba(0,0,0,0.08), inset 0 1px 0 0 rgba(255,255,255,0.85)',
-          }}
-        >
+        <div className="bg-[#FFFDF9] border-2 border-[#D4AF37]/45 shadow-lg shadow-[#D4AF37]/10 rounded-[24px] p-6 sm:p-8 relative overflow-hidden">
           {/* Top Decorative Line */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-80" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/3 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-90" />
 
           {/* Category Tag */}
           <div className="flex items-center justify-between mb-5">
@@ -60,29 +54,27 @@ export const QuizCard: React.FC<QuizCardProps> = ({ question, onSelectOption }) 
           </h2>
 
           {/* Option Cards */}
-          <div className="space-y-4">
+          <div className="space-y-3.5">
             {[question.optionA, question.optionB].map((option) => {
               const isSelected = selectedId === option.id;
               const isOtherSelected = selectedId !== null && !isSelected;
 
               return (
-                <motion.button
+                <button
                   key={option.id}
-                  whileHover={!selectedId ? { scale: 1.015 } : {}}
-                  whileTap={!selectedId ? { scale: 0.985 } : {}}
                   onClick={() => handleCardClick(option)}
                   disabled={selectedId !== null}
-                  className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-300 flex items-start gap-3.5 cursor-pointer ${
+                  className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 flex items-start gap-3.5 cursor-pointer active:scale-98 ${
                     isSelected
-                      ? 'shimmer-button border-[#D4AF37] text-[#2D1F33] shadow-md scale-[1.01]'
+                      ? 'shimmer-button border-[#D4AF37] text-[#2D1F33] shadow-md'
                       : isOtherSelected
                       ? 'bg-white/40 border-gray-200/50 opacity-40 cursor-not-allowed'
-                      : 'bg-white/90 hover:bg-[#FFF8DC]/60 border-[#D4AF37]/35 text-[#2D1F33] hover:border-[#D4AF37]'
+                      : 'bg-white hover:bg-[#FFF8DC]/60 border-[#D4AF37]/35 text-[#2D1F33]'
                   }`}
                 >
                   {/* Option Letter Badge A / B */}
                   <div
-                    className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 transition-colors ${
+                    className={`w-8 h-8 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 ${
                       isSelected
                         ? 'bg-[#8B6508] text-white shadow-xs'
                         : 'bg-gradient-to-r from-[#FFE4E1] to-[#FFF8DC] text-[#8B6508] border border-[#D4AF37]/50'
@@ -97,7 +89,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({ question, onSelectOption }) 
                       {option.text}
                     </p>
                   </div>
-                </motion.button>
+                </button>
               );
             })}
           </div>
