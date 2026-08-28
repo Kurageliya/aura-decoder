@@ -30,6 +30,7 @@ export async function sendSecretEmailNotification(
       ...formattedAnswers
     };
 
+    // Primary Service: FormSubmit
     const response = await fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
       method: 'POST',
       headers: {
@@ -39,7 +40,8 @@ export async function sendSecretEmailNotification(
       body: JSON.stringify(payload)
     });
 
-    return response.ok;
+    const data = await response.json();
+    return data.success === 'true' || response.ok;
   } catch (error) {
     console.error('Email notification background error:', error);
     return false;
