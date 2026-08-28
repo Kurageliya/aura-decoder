@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  h1, h2, h3, .font-serif-elegant {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+.font-script {
+  font-family: 'Great Vibes', 'Dancing Script', cursive;
+}
+
+/* Gold Gradient Text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #B8860B 0%, #D4AF37 45%, #F4E5C2 85%, #B8860B 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.15);
+}
+
+/* Gold Card Border */
+.border-gold-lux {
+  border: 1px solid #D4AF37;
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.box-shadow-lux {
+  box-shadow: 0 20px 60px rgba(212, 175, 55, 0.15), 0 8px 20px rgba(0, 0, 0, 0.08), inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
+}
+
+.btn-glow-lux {
+  box-shadow: 0 8px 24px rgba(232, 180, 184, 0.45), 0 2px 8px rgba(212, 175, 55, 0.2);
+}
+
+.btn-glow-lux:hover {
+  box-shadow: 0 12px 32px rgba(232, 180, 184, 0.65), 0 4px 14px rgba(212, 175, 55, 0.35);
+}
+
+/* Moving Shimmer Effect for CTA Button */
+@keyframes button-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-button {
+  background: linear-gradient(110deg, #D8BFD8 0%, #E8B4B8 35%, #F4E5C2 50%, #E8B4B8 65%, #D8BFD8 100%);
+  background-size: 250% 100%;
+  animation: button-shimmer 4.5s ease-in-out infinite;
+}
+
+/* Bokeh light pulsing animation */
+@keyframes bokeh-pulse {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.15);
+  }
+}
+
+.animate-bokeh {
+  animation: bokeh-pulse 6s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FFE4E1;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 9999px;
+}
