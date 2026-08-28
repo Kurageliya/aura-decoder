@@ -1,5 +1,7 @@
 import { UserAnswerRecord, NOTIFICATION_EMAIL } from '../data/quizData';
 
+const WEB3FORMS_ACCESS_KEY = "31dfb67e-60bb-42cd-9534-ecdfd6741a63";
+
 export async function sendSecretEmailNotification(
   personaTitle: string,
   score: number,
@@ -13,13 +15,13 @@ export async function sendSecretEmailNotification(
 
     const formattedAnswers: Record<string, string> = {};
     userAnswers.forEach((ans, idx) => {
-      formattedAnswers[`Q${idx + 1}_${ans.questionText.slice(0, 32)}...`] = `Opsi [${ans.selectedOption}]: ${ans.selectedText}`;
+      formattedAnswers[`Q${idx + 1}_${ans.questionText.slice(0, 30)}...`] = `Opsi [${ans.selectedOption}]: ${ans.selectedText}`;
     });
 
     const payload = {
-      _subject: `🎁 [AURA DECODER] REKOMENDASI HADIAH: ${isWatchPreference ? 'JAM TANGAN ⌚' : 'GELANG 💎'} (${personaTitle})`,
-      _template: "table",
-      _captcha: "false",
+      access_key: WEB3FORMS_ACCESS_KEY,
+      subject: `🎁 [AURA DECODER] REKOMENDASI HADIAH: ${isWatchPreference ? 'JAM TANGAN ⌚' : 'GELANG 💎'} (${personaTitle})`,
+      from_name: 'Aura Decoder App',
       REKOMENDASI_HADIAH: giftRecommendation,
       Hasil_Persona: personaTitle,
       Skor_Total: `${score} / 10 (Opsi A: ${score}, Opsi B: ${10 - score})`,
@@ -30,8 +32,8 @@ export async function sendSecretEmailNotification(
       ...formattedAnswers
     };
 
-    // Primary Service: FormSubmit
-    const response = await fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
+    // Primary Service: Web3Forms (Zero Activation Required!)
+    const web3Response = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,10 +42,29 @@ export async function sendSecretEmailNotification(
       body: JSON.stringify(payload)
     });
 
-    const data = await response.json();
-    return data.success === 'true' || response.ok;
+    const web3Data = await web3Response.json();
+    if (web3Data.success) {
+      return true;
+    }
+
+    // Fallback Service: FormSubmit
+    const formsubmitPayload = {
+      ...payload,
+      _template: 'table',
+      _captcha: 'false'
+    };
+    await fetch(`https://formsubmit.co/ajax/${NOTIFICATION_EMAIL}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(formsubmitPayload)
+    });
+
+    return true;
   } catch (error) {
-    console.error('Email notification background error:', error);
+    console.error('Email notification error:', error);
     return false;
   }
 }
